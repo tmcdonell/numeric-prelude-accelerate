@@ -26,5 +26,7 @@ library
       Data.Array.Accelerate.Algebra.Ring
       Data.Array.Accelerate.Algebra.ZeroTestable
 
+      Data.Array.Accelerate.Number.Complex
+
   ghc-options:        -Wall
 
