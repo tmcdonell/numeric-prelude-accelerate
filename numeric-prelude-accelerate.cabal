@@ -23,6 +23,7 @@ library
   exposed-modules:
       Data.Array.Accelerate.Algebra.Additive
       Data.Array.Accelerate.Algebra.Ring
+      Data.Array.Accelerate.Algebra.ZeroTestable
 
   ghc-options:        -Wall
 
