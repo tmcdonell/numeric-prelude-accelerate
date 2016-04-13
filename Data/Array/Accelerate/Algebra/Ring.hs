@@ -23,7 +23,7 @@ import Data.Array.Accelerate                              as A
 import qualified Prelude                                  as P
 
 
-instance (Ring.C a, Additive.C a, IsNum a, Elt a) => C (Exp a) where
+instance (C a, Additive.C a, IsNum a, Elt a) => C (Exp a) where
   one           = constant one
   (*)           = (P.*)
   fromInteger x = constant (fromInteger x)
