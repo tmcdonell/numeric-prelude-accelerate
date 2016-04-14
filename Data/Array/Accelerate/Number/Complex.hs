@@ -58,8 +58,11 @@ import Data.Array.Accelerate.Smart
 import Data.Array.Accelerate.Product
 import Data.Array.Accelerate.Array.Sugar
 
-import Data.Typeable
 import Prelude                                            ( undefined, ($) )
+
+#if __GLASGOW_HASKELL__ <= 708
+import Data.Typeable
+#endif
 
 
 infix 6 +:
