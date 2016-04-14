@@ -1,4 +1,7 @@
-{-# LANGUAGE NoImplicitPrelude #-}
+{-# LANGUAGE FlexibleContexts    #-}
+{-# LANGUAGE FlexibleInstances   #-}
+{-# LANGUAGE NoImplicitPrelude   #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 -- |
 -- Module      : Data.Array.Accelerate.Algebra.IntegralDomain
@@ -28,29 +31,77 @@ import Data.Array.Accelerate                                  as A hiding ( even
 import qualified Prelude                                      as P
 
 
-instance (C a, Ring.C a, IsIntegral a, Elt a) => C (Exp a) where
-  divMod = P.divMod
+-- instance (C a, Ring.C a, IsIntegral a, Elt a) => C (Exp a) where
+--   divMod = P.divMod
 
 
 -- | Allows division by zero. If the denominator is zero, the numerator is
 -- returned as the remainder.
 --
-divModZero :: (C a, ZeroTestable.C a, IsIntegral a, Elt a) => Exp a -> Exp a -> Exp (a, a)
+divModZero
+    :: forall a. (C (Exp a), ZeroTestable.C (Exp a), Elt a)
+    => Exp a
+    -> Exp a
+    -> Exp (a, a)
 divModZero x y =
-  isZero y ? ( lift (constant zero, x)
+  isZero y ? ( lift (zero :: Exp a, x)
              , lift (divMod x y) )
 
 -- | Test if the first argument evenly divides the second
 --
-divides :: (C a, ZeroTestable.C a, IsIntegral a, Elt a) => Exp a -> Exp a -> Exp Bool
+divides
+    :: (C (Exp a), ZeroTestable.C (Exp a), Elt a)
+    => Exp a
+    -> Exp a
+    -> Exp Bool
 divides y x = isZero (mod x y)
 
-sameResidueClass :: (C a, ZeroTestable.C a, IsIntegral a, Elt a) => Exp a -> Exp a -> Exp a -> Exp Bool
+sameResidueClass
+    :: (C (Exp a), ZeroTestable.C (Exp a), Elt a)
+    => Exp a
+    -> Exp a
+    -> Exp a
+    -> Exp Bool
 sameResidueClass m x y = divides m (x-y)
 
-even :: (C a, ZeroTestable.C a, IsIntegral a, Elt a) => Exp a -> Exp Bool
-even n = divides 2 n
+even :: (C (Exp a), ZeroTestable.C (Exp a), Elt a)
+     => Exp a
+     -> Exp Bool
+even n = divides (Ring.fromInteger 2) n
 
-odd :: (C a, ZeroTestable.C a, IsIntegral a, Elt a) => Exp a -> Exp Bool
+odd :: (C (Exp a), ZeroTestable.C (Exp a), Elt a)
+    => Exp a
+    -> Exp Bool
 odd x = not (even x)
+
+
+instance C (Exp Int) where
+  divMod = P.divMod
+
+instance C (Exp Int8) where
+  divMod = P.divMod
+
+instance C (Exp Int16) where
+  divMod = P.divMod
+
+instance C (Exp Int32) where
+  divMod = P.divMod
+
+instance C (Exp Int64) where
+  divMod = P.divMod
+
+instance C (Exp Word) where
+  divMod = P.divMod
+
+instance C (Exp Word8) where
+  divMod = P.divMod
+
+instance C (Exp Word16) where
+  divMod = P.divMod
+
+instance C (Exp Word32) where
+  divMod = P.divMod
+
+instance C (Exp Word64) where
+  divMod = P.divMod
 

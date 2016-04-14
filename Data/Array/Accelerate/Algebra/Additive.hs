@@ -1,3 +1,4 @@
+{-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 -- |
@@ -21,7 +22,79 @@ import Algebra.Additive                                   as Additive
 import Data.Array.Accelerate                              as A
 import qualified Prelude                                  as P
 
-instance (Additive.C a, IsNum a, Elt a) => C (Exp a) where
+-- instance (Additive.C a, IsNum a, Elt a) => C (Exp a) where
+--   zero   = constant zero
+--   (+)    = (P.+)
+--   (-)    = (P.-)
+--   negate = P.negate
+
+instance C (Exp Int) where
+  zero   = constant zero
+  (+)    = (P.+)
+  (-)    = (P.-)
+  negate = P.negate
+
+instance C (Exp Int8) where
+  zero   = constant zero
+  (+)    = (P.+)
+  (-)    = (P.-)
+  negate = P.negate
+
+instance C (Exp Int16) where
+  zero   = constant zero
+  (+)    = (P.+)
+  (-)    = (P.-)
+  negate = P.negate
+
+instance C (Exp Int32) where
+  zero   = constant zero
+  (+)    = (P.+)
+  (-)    = (P.-)
+  negate = P.negate
+
+instance C (Exp Int64) where
+  zero   = constant zero
+  (+)    = (P.+)
+  (-)    = (P.-)
+  negate = P.negate
+
+instance C (Exp Word) where
+  zero   = constant zero
+  (+)    = (P.+)
+  (-)    = (P.-)
+  negate = P.negate
+
+instance C (Exp Word8) where
+  zero   = constant zero
+  (+)    = (P.+)
+  (-)    = (P.-)
+  negate = P.negate
+
+instance C (Exp Word16) where
+  zero   = constant zero
+  (+)    = (P.+)
+  (-)    = (P.-)
+  negate = P.negate
+
+instance C (Exp Word32) where
+  zero   = constant zero
+  (+)    = (P.+)
+  (-)    = (P.-)
+  negate = P.negate
+
+instance C (Exp Word64) where
+  zero   = constant zero
+  (+)    = (P.+)
+  (-)    = (P.-)
+  negate = P.negate
+
+instance C (Exp Float) where
+  zero   = constant zero
+  (+)    = (P.+)
+  (-)    = (P.-)
+  negate = P.negate
+
+instance C (Exp Double) where
   zero   = constant zero
   (+)    = (P.+)
   (-)    = (P.-)
