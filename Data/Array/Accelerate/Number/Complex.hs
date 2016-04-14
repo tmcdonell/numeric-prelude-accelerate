@@ -1,9 +1,12 @@
+{-# LANGUAGE CPP                   #-}
 {-# LANGUAGE ConstraintKinds       #-}
+{-# LANGUAGE DeriveDataTypeable    #-}
 {-# LANGUAGE FlexibleContexts      #-}
 {-# LANGUAGE FlexibleInstances     #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE NoImplicitPrelude     #-}
 {-# LANGUAGE ScopedTypeVariables   #-}
+{-# LANGUAGE StandaloneDeriving    #-}
 {-# LANGUAGE TypeFamilies          #-}
 {-# LANGUAGE UndecidableInstances  #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
@@ -55,6 +58,7 @@ import Data.Array.Accelerate.Smart
 import Data.Array.Accelerate.Product
 import Data.Array.Accelerate.Array.Sugar
 
+import Data.Typeable
 import Prelude                                            ( undefined, ($) )
 
 
@@ -184,6 +188,10 @@ conjugate = lift1 (Complex.conjugate :: Complex.T (Exp a) -> Complex.T (Exp a))
 
 -- Accelerate classes
 -- ------------------
+
+#if __GLASGOW_HASKELL__ <= 708
+deriving instance Typeable Complex.T
+#endif
 
 type instance EltRepr (Complex.T a) = EltRepr (a, a)
 
