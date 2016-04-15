@@ -22,9 +22,10 @@ module Data.Array.Accelerate.Algebra.ZeroTestable (
 ) where
 
 import qualified Data.Array.Accelerate.Algebra.Additive   as Additive
+import qualified Algebra.ZeroTestable                     as NP
 
 import Data.Array.Accelerate                              as A
-import qualified Prelude                                  as P
+import Prelude                                            as P
 
 
 class C a where
@@ -95,4 +96,31 @@ instance (C (Exp a), C (Exp b), C (Exp c), C (Exp d), C (Exp e), C (Exp f), C (E
 --
 defltIsZero :: (Additive.C (Exp a), IsNum a, Elt a) => Exp a -> Exp Bool
 defltIsZero = (Additive.zero ==*)
+
+
+-- Vacuous instances to satisfy NP superclass constraints
+--
+
+instance NP.C (Exp Float)  where isZero = npIsZeroError
+instance NP.C (Exp Double) where isZero = npIsZeroError
+
+instance NP.C (Exp Int)    where isZero = npIsZeroError
+instance NP.C (Exp Int8)   where isZero = npIsZeroError
+instance NP.C (Exp Int16)  where isZero = npIsZeroError
+instance NP.C (Exp Int32)  where isZero = npIsZeroError
+instance NP.C (Exp Int64)  where isZero = npIsZeroError
+
+instance NP.C (Exp Word)   where isZero = npIsZeroError
+instance NP.C (Exp Word8)  where isZero = npIsZeroError
+instance NP.C (Exp Word16) where isZero = npIsZeroError
+instance NP.C (Exp Word32) where isZero = npIsZeroError
+instance NP.C (Exp Word64) where isZero = npIsZeroError
+
+
+npIsZeroError :: a -> Bool
+npIsZeroError
+  = error
+  $ unlines [ "Algebra.ZeroTestable.isZero is incompatible with Accelerate"
+            , "use Data.Array.Accelerate.Algebra.ZeroTestable.isZero instead"
+            ]
 
