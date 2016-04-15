@@ -21,6 +21,7 @@ library
       , numeric-prelude         >= 0.4.2
 
   exposed-modules:
+      Data.Array.Accelerate.Algebra.Absolute
       Data.Array.Accelerate.Algebra.Additive
       Data.Array.Accelerate.Algebra.IntegralDomain
       Data.Array.Accelerate.Algebra.Ring
