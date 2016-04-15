@@ -22,6 +22,9 @@ import Algebra.Additive                                   as Additive
 import Data.Array.Accelerate                              as A
 import qualified Prelude                                  as P
 
+
+-- One advantage of the below is that C (Exp a) implies C a.
+--
 -- instance (Additive.C a, IsNum a, Elt a) => C (Exp a) where
 --   zero   = constant zero
 --   (+)    = (P.+)
