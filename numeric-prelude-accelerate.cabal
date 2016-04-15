@@ -27,6 +27,7 @@ library
       Data.Array.Accelerate.Algebra.IntegralDomain
       Data.Array.Accelerate.Algebra.RealIntegral
       Data.Array.Accelerate.Algebra.Ring
+      Data.Array.Accelerate.Algebra.ToInteger
       Data.Array.Accelerate.Algebra.ToRational
       Data.Array.Accelerate.Algebra.ZeroTestable
 
