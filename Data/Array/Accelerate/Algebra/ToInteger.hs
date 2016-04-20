@@ -45,10 +45,16 @@ instance C (Exp Word64) where toInteger = npToIntegerError
 npToIntegerError :: a -> Integer
 npToIntegerError
   = error
-  $ unlines [ "Algebra.ToInteger.toInteger is incompatible with Accelerate" ]
+  $ unlines [ "Algebra.ToInteger.toInteger is incompatible with Accelerate"
+            , "and GHC RULES failed to rewrite this into something sensible"
+            ]
 
--- TLM: These rules probably won't fire, but they are the only mechanism we have
---      for NP's 'fromIntegral' to do anything useful in Accelerate.
+-- Note: [ToIntegral and rewrite rules]
+--
+-- Since numeric prelude forces the implementation of fromIntegral to go via
+-- 'ToInteger', the only way for 'fromIntegral' to make sense for Accelerate is
+-- if the following rewrite rules fire.
+--
 {-# RULES
      "NP.fromIntegral :: Exp Int     -> Exp Int"     ToInteger.fromIntegral = A.fromIntegral :: Exp Int     -> Exp Int;
      "NP.fromIntegral :: Exp Int     -> Exp Float"   ToInteger.fromIntegral = A.fromIntegral :: Exp Int     -> Exp Float;
