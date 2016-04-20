@@ -21,16 +21,17 @@ library
       , numeric-prelude         >= 0.4.2
 
   exposed-modules:
-      Data.Array.Accelerate.Algebra.Transcendental
       Data.Array.Accelerate.Algebra.Absolute
       Data.Array.Accelerate.Algebra.Additive
       Data.Array.Accelerate.Algebra.Algebraic
       Data.Array.Accelerate.Algebra.Field
       Data.Array.Accelerate.Algebra.IntegralDomain
+      Data.Array.Accelerate.Algebra.Module
       Data.Array.Accelerate.Algebra.RealIntegral
       Data.Array.Accelerate.Algebra.Ring
       Data.Array.Accelerate.Algebra.ToInteger
       Data.Array.Accelerate.Algebra.ToRational
+      Data.Array.Accelerate.Algebra.Transcendental
       Data.Array.Accelerate.Algebra.ZeroTestable
 
       Data.Array.Accelerate.Number.Complex
