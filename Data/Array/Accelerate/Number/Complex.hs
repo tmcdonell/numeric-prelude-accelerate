@@ -189,6 +189,24 @@ conjugate :: forall a. (Additive.C (Exp a), Elt a) => Exp (Complex.T a) -> Exp (
 conjugate = lift1 (Complex.conjugate :: Complex.T (Exp a) -> Complex.T (Exp a))
 
 
+-- numeric-prelude instances
+-- -------------------------
+
+instance (Additive.C (Exp a), Elt a) => Additive.C (Exp (Complex.T a)) where
+  zero   = lift (Additive.zero :: Complex.T (Exp a))
+  (+)    = lift2 ((Additive.+) :: Complex.T (Exp a) -> Complex.T (Exp a) -> Complex.T (Exp a))
+  (-)    = lift2 ((Additive.-) :: Complex.T (Exp a) -> Complex.T (Exp a) -> Complex.T (Exp a))
+  negate = lift1 (Additive.negate :: Complex.T (Exp a) -> Complex.T (Exp a))
+
+instance (Ring.C (Exp a), Elt a) => Ring.C (Exp (Complex.T a)) where
+  (*)           = lift2 ((Ring.*) :: Complex.T (Exp a) -> Complex.T (Exp a) -> Complex.T (Exp a))
+  one           = lift (Ring.one :: Complex.T (Exp a))
+  fromInteger x = lift (Ring.fromInteger x :: Complex.T (Exp a))
+
+-- instance (Absolute.C (Exp a), Elt a) => Absolute.C (Exp (Complex.T a)) where
+--   abs    = lift1 (Absolute.abs    :: Complex.T (Exp a) -> Complex.T (Exp a))
+--   signum = lift1 (Absolute.signum :: Complex.T (Exp a) -> Complex.T (Exp a))
+
 -- Accelerate classes
 -- ------------------
 
