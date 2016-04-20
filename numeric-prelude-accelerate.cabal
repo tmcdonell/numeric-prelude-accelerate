@@ -23,6 +23,7 @@ library
   exposed-modules:
       Data.Array.Accelerate.Algebra.Absolute
       Data.Array.Accelerate.Algebra.Additive
+      Data.Array.Accelerate.Algebra.Algebraic
       Data.Array.Accelerate.Algebra.Field
       Data.Array.Accelerate.Algebra.IntegralDomain
       Data.Array.Accelerate.Algebra.RealIntegral
