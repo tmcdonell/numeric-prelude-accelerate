@@ -21,16 +21,16 @@ import Algebra.Algebraic                                            as Algebraic
 import Data.Array.Accelerate.Algebra.Field                          as Field hiding ( C )
 
 import Data.Array.Accelerate                                        as A
-import qualified Prelude                                            as P
+import qualified Prelude                                            as P ( fromInteger ) -- should have been re-exported by Accelerate?!?
 
 
 instance C (Exp Float) where
-  sqrt     = P.sqrt
-  root n x = x P.** recip (P.fromInteger n)
-  x ^/ y   = x P.** fromRational' y
+  sqrt     = A.sqrt
+  root n x = x A.** Field.recip (P.fromInteger n)
+  x ^/ y   = x A.** fromRational' y
 
 instance C (Exp Double) where
-  sqrt     = P.sqrt
-  root n x = x P.** recip (P.fromInteger n)
-  x ^/ y   = x P.** fromRational' y
+  sqrt     = A.sqrt
+  root n x = x A.** Field.recip (P.fromInteger n)
+  x ^/ y   = x A.** fromRational' y
 

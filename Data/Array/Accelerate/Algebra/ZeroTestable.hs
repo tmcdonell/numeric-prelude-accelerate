@@ -25,7 +25,7 @@ import qualified Data.Array.Accelerate.Algebra.Additive   as Additive
 import qualified Algebra.ZeroTestable                     as NP
 
 import Data.Array.Accelerate                              as A
-import Prelude                                            as P
+import Prelude                                            as P ( ($), error, unlines )
 
 
 class C a where
@@ -47,7 +47,7 @@ instance C (Exp Word32) where isZero = defltIsZero
 instance C (Exp Word64) where isZero = defltIsZero
 
 instance C (Exp Z) where
-  isZero _ = constant P.True
+  isZero _ = constant True
 
 instance (C (Exp sh), Slice sh) => C (Exp (sh :. Int)) where
   isZero sh = isZero (indexHead sh) &&* isZero (indexTail sh)
@@ -94,7 +94,7 @@ instance (C (Exp a), C (Exp b), C (Exp c), C (Exp d), C (Exp e), C (Exp f), C (E
 -- values (the unit of a zero quantity is unknown), residue class (the modulus
 -- is unknown).
 --
-defltIsZero :: (Additive.C (Exp a), IsNum a, Elt a) => Exp a -> Exp Bool
+defltIsZero :: (Additive.C (Exp a), A.Eq a, Elt a) => Exp a -> Exp Bool
 defltIsZero = (Additive.zero ==*)
 
 

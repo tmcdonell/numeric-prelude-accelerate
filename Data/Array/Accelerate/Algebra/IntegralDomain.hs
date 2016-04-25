@@ -27,11 +27,15 @@ import Data.Array.Accelerate.Algebra.ZeroTestable             ( isZero )
 import qualified Data.Array.Accelerate.Algebra.ZeroTestable   as ZeroTestable
 import qualified Data.Array.Accelerate.Algebra.Ring           as Ring
 
-import Data.Array.Accelerate                                  as A hiding ( even, odd )
-import qualified Prelude                                      as P
+import Data.Bool
+import Data.Int
+import Data.Word
+
+import Data.Array.Accelerate                                  ( Exp, Elt, lift, (?) )
+import qualified Data.Array.Accelerate                        as A
 
 
--- instance (C a, Ring.C a, IsIntegral a, Elt a) => C (Exp a) where
+-- instance (C a, Ring.C a, Integral a, Elt a) => C (Exp a) where
 --   divMod = P.divMod
 
 
@@ -72,36 +76,36 @@ even n = divides (Ring.fromInteger 2) n
 odd :: (C (Exp a), ZeroTestable.C (Exp a), Elt a)
     => Exp a
     -> Exp Bool
-odd x = not (even x)
+odd x = A.not (even x)
 
 
 instance C (Exp Int) where
-  divMod = P.divMod
+  divMod = A.divMod
 
 instance C (Exp Int8) where
-  divMod = P.divMod
+  divMod = A.divMod
 
 instance C (Exp Int16) where
-  divMod = P.divMod
+  divMod = A.divMod
 
 instance C (Exp Int32) where
-  divMod = P.divMod
+  divMod = A.divMod
 
 instance C (Exp Int64) where
-  divMod = P.divMod
+  divMod = A.divMod
 
 instance C (Exp Word) where
-  divMod = P.divMod
+  divMod = A.divMod
 
 instance C (Exp Word8) where
-  divMod = P.divMod
+  divMod = A.divMod
 
 instance C (Exp Word16) where
-  divMod = P.divMod
+  divMod = A.divMod
 
 instance C (Exp Word32) where
-  divMod = P.divMod
+  divMod = A.divMod
 
 instance C (Exp Word64) where
-  divMod = P.divMod
+  divMod = A.divMod
 

@@ -21,44 +21,43 @@ import Algebra.Transcendental                                       as Transcend
 import qualified Data.Array.Accelerate.Algebra.Algebraic            as Algebraic ()
 
 import Data.Array.Accelerate                                        as A
-import qualified Prelude                                            as P
 
 
 instance C (Exp Float) where
-  (**)    = (P.**)
-  exp     = P.exp
-  log     = P.log
-  logBase = P.logBase
-  pi      = P.pi
-  sin     = P.sin
-  cos     = P.cos
-  tan     = P.tan
-  asin    = P.asin
-  acos    = P.acos
-  atan    = P.atan
-  sinh    = P.sinh
-  cosh    = P.cosh
-  tanh    = P.tanh
-  asinh   = P.asinh
-  acosh   = P.acosh
-  atanh   = P.atanh
+  (**)    = (A.**)
+  exp     = A.exp
+  log     = A.log
+  logBase = A.logBase
+  pi      = A.pi
+  sin     = A.sin
+  cos     = A.cos
+  tan     = A.tan
+  asin    = A.asin
+  acos    = A.acos
+  atan    = A.atan
+  sinh    = A.sinh
+  cosh    = A.cosh
+  tanh    = A.tanh
+  asinh   = A.asinh
+  acosh   = A.acosh
+  atanh   = A.atanh
 
 instance C (Exp Double) where
-  (**)    = (P.**)
-  exp     = P.exp
-  log     = P.log
-  logBase = P.logBase
-  pi      = P.pi
-  sin     = P.sin
-  cos     = P.cos
-  tan     = P.tan
-  asin    = P.asin
-  acos    = P.acos
-  atan    = P.atan
-  sinh    = P.sinh
-  cosh    = P.cosh
-  tanh    = P.tanh
-  asinh   = P.asinh
-  acosh   = P.acosh
-  atanh   = P.atanh
+  (**)    = (A.**)
+  exp     = A.exp
+  log     = A.log
+  logBase = A.logBase
+  pi      = A.pi
+  sin     = A.sin
+  cos     = A.cos
+  tan     = A.tan
+  asin    = A.asin
+  acos    = A.acos
+  atan    = A.atan
+  sinh    = A.sinh
+  cosh    = A.cosh
+  tanh    = A.tanh
+  asinh   = A.asinh
+  acosh   = A.acosh
+  atanh   = A.atanh
 

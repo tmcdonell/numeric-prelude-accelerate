@@ -22,16 +22,15 @@ import Algebra.Field                                                as Field
 import qualified Data.Array.Accelerate.Algebra.Ring                 as Ring ()
 
 import Data.Array.Accelerate                                        as A
-import Prelude                                                      as P
 
 
 instance C (Exp Float) where
-  (/)           = (P./)
-  recip         = P.recip
-  fromRational' = constant . fromRational'
+  (/)             = (A./)
+  recip           = A.recip
+  fromRational' x = constant (fromRational' x)
 
 instance C (Exp Double) where
-  (/)           = (P./)
-  recip         = P.recip
-  fromRational' = constant . fromRational'
+  (/)             = (A./)
+  recip           = A.recip
+  fromRational' x = constant (fromRational' x)
 

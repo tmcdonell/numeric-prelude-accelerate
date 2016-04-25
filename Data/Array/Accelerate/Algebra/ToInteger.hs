@@ -27,7 +27,7 @@ import qualified Data.Array.Accelerate.Algebra.RealIntegral         as RealInteg
 import qualified Data.Array.Accelerate.Algebra.ToRational           as ToRational ()
 
 import Data.Array.Accelerate                                        as A
-import Prelude                                                      as P
+import Prelude                                                      as P ( ($), Integer, error, unlines )
 
 
 instance C (Exp Int)    where toInteger = npToIntegerError

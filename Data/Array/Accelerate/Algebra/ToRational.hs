@@ -25,7 +25,7 @@ import qualified Data.Array.Accelerate.Algebra.Absolute             as Absolute 
 import qualified Data.Array.Accelerate.Algebra.ZeroTestable         as ZeroTestable ()
 
 import Data.Array.Accelerate                                        as A
-import Prelude                                                      as P hiding ( Rational )
+import Prelude                                                      as P ( ($), error, unlines )
 
 
 instance C (Exp Int)    where toRational = npToRationalError
@@ -49,29 +49,29 @@ npToRationalError
 --      for NP's 'realToField' to do anything useful in Accelerate.
 --
 {-# RULES
-     "NP.realToField :: Exp Int    -> Exp Float"   realToField = A.realToFrac :: Exp Int    -> Exp Float ;
-     "NP.realToField :: Exp Int8   -> Exp Float"   realToField = A.realToFrac :: Exp Int8   -> Exp Float ;
-     "NP.realToField :: Exp Int16  -> Exp Float"   realToField = A.realToFrac :: Exp Int16  -> Exp Float ;
-     "NP.realToField :: Exp Int32  -> Exp Float"   realToField = A.realToFrac :: Exp Int32  -> Exp Float ;
-     "NP.realToField :: Exp Int64  -> Exp Float"   realToField = A.realToFrac :: Exp Int64  -> Exp Float ;
-     "NP.realToField :: Exp Word   -> Exp Float"   realToField = A.realToFrac :: Exp Word   -> Exp Float ;
-     "NP.realToField :: Exp Word8  -> Exp Float"   realToField = A.realToFrac :: Exp Word8  -> Exp Float ;
-     "NP.realToField :: Exp Word16 -> Exp Float"   realToField = A.realToFrac :: Exp Word16 -> Exp Float ;
-     "NP.realToField :: Exp Word32 -> Exp Float"   realToField = A.realToFrac :: Exp Word32 -> Exp Float ;
-     "NP.realToField :: Exp Word64 -> Exp Float"   realToField = A.realToFrac :: Exp Word64 -> Exp Float ;
-     "NP.realToField :: Exp Float  -> Exp Float"   realToField = A.realToFrac :: Exp Float  -> Exp Float ;
-     "NP.realToField :: Exp Double -> Exp Float"   realToField = A.realToFrac :: Exp Double -> Exp Float ;
-     "NP.realToField :: Exp Int    -> Exp Double"  realToField = A.realToFrac :: Exp Int    -> Exp Double;
-     "NP.realToField :: Exp Int8   -> Exp Double"  realToField = A.realToFrac :: Exp Int8   -> Exp Double;
-     "NP.realToField :: Exp Int16  -> Exp Double"  realToField = A.realToFrac :: Exp Int16  -> Exp Double;
-     "NP.realToField :: Exp Int32  -> Exp Double"  realToField = A.realToFrac :: Exp Int32  -> Exp Double;
-     "NP.realToField :: Exp Int64  -> Exp Double"  realToField = A.realToFrac :: Exp Int64  -> Exp Double;
-     "NP.realToField :: Exp Word   -> Exp Double"  realToField = A.realToFrac :: Exp Word   -> Exp Double;
-     "NP.realToField :: Exp Word8  -> Exp Double"  realToField = A.realToFrac :: Exp Word8  -> Exp Double;
-     "NP.realToField :: Exp Word16 -> Exp Double"  realToField = A.realToFrac :: Exp Word16 -> Exp Double;
-     "NP.realToField :: Exp Word32 -> Exp Double"  realToField = A.realToFrac :: Exp Word32 -> Exp Double;
-     "NP.realToField :: Exp Word64 -> Exp Double"  realToField = A.realToFrac :: Exp Word64 -> Exp Double;
-     "NP.realToField :: Exp Float  -> Exp Double"  realToField = A.realToFrac :: Exp Float  -> Exp Double;
-     "NP.realToField :: Exp Double -> Exp Double"  realToField = A.realToFrac :: Exp Double -> Exp Double;
+     "NP.realToField :: Exp Int    -> Exp Float"   realToField = A.toFloating :: Exp Int    -> Exp Float ;
+     "NP.realToField :: Exp Int8   -> Exp Float"   realToField = A.toFloating :: Exp Int8   -> Exp Float ;
+     "NP.realToField :: Exp Int16  -> Exp Float"   realToField = A.toFloating :: Exp Int16  -> Exp Float ;
+     "NP.realToField :: Exp Int32  -> Exp Float"   realToField = A.toFloating :: Exp Int32  -> Exp Float ;
+     "NP.realToField :: Exp Int64  -> Exp Float"   realToField = A.toFloating :: Exp Int64  -> Exp Float ;
+     "NP.realToField :: Exp Word   -> Exp Float"   realToField = A.toFloating :: Exp Word   -> Exp Float ;
+     "NP.realToField :: Exp Word8  -> Exp Float"   realToField = A.toFloating :: Exp Word8  -> Exp Float ;
+     "NP.realToField :: Exp Word16 -> Exp Float"   realToField = A.toFloating :: Exp Word16 -> Exp Float ;
+     "NP.realToField :: Exp Word32 -> Exp Float"   realToField = A.toFloating :: Exp Word32 -> Exp Float ;
+     "NP.realToField :: Exp Word64 -> Exp Float"   realToField = A.toFloating :: Exp Word64 -> Exp Float ;
+     "NP.realToField :: Exp Float  -> Exp Float"   realToField = A.toFloating :: Exp Float  -> Exp Float ;
+     "NP.realToField :: Exp Double -> Exp Float"   realToField = A.toFloating :: Exp Double -> Exp Float ;
+     "NP.realToField :: Exp Int    -> Exp Double"  realToField = A.toFloating :: Exp Int    -> Exp Double;
+     "NP.realToField :: Exp Int8   -> Exp Double"  realToField = A.toFloating :: Exp Int8   -> Exp Double;
+     "NP.realToField :: Exp Int16  -> Exp Double"  realToField = A.toFloating :: Exp Int16  -> Exp Double;
+     "NP.realToField :: Exp Int32  -> Exp Double"  realToField = A.toFloating :: Exp Int32  -> Exp Double;
+     "NP.realToField :: Exp Int64  -> Exp Double"  realToField = A.toFloating :: Exp Int64  -> Exp Double;
+     "NP.realToField :: Exp Word   -> Exp Double"  realToField = A.toFloating :: Exp Word   -> Exp Double;
+     "NP.realToField :: Exp Word8  -> Exp Double"  realToField = A.toFloating :: Exp Word8  -> Exp Double;
+     "NP.realToField :: Exp Word16 -> Exp Double"  realToField = A.toFloating :: Exp Word16 -> Exp Double;
+     "NP.realToField :: Exp Word32 -> Exp Double"  realToField = A.toFloating :: Exp Word32 -> Exp Double;
+     "NP.realToField :: Exp Word64 -> Exp Double"  realToField = A.toFloating :: Exp Word64 -> Exp Double;
+     "NP.realToField :: Exp Float  -> Exp Double"  realToField = A.toFloating :: Exp Float  -> Exp Double;
+     "NP.realToField :: Exp Double -> Exp Double"  realToField = A.toFloating :: Exp Double -> Exp Double;
   #-}
 

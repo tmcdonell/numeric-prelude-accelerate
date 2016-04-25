@@ -50,6 +50,7 @@ module Data.Array.Accelerate.Number.Complex (
 
 import qualified Number.Complex                           as Complex
 
+-- import qualified Data.Array.Accelerate.Algebra.Absolute   as Absolute
 import qualified Data.Array.Accelerate.Algebra.Additive   as Additive
 import qualified Data.Array.Accelerate.Algebra.Ring       as Ring
 
@@ -58,7 +59,7 @@ import Data.Array.Accelerate.Smart
 import Data.Array.Accelerate.Product
 import Data.Array.Accelerate.Array.Sugar
 
-import Prelude                                            ( undefined, ($) )
+import Prelude                                            ( ($), undefined )
 
 #if __GLASGOW_HASKELL__ <= 708
 import Data.Typeable
@@ -206,6 +207,7 @@ instance (Ring.C (Exp a), Elt a) => Ring.C (Exp (Complex.T a)) where
 -- instance (Absolute.C (Exp a), Elt a) => Absolute.C (Exp (Complex.T a)) where
 --   abs    = lift1 (Absolute.abs    :: Complex.T (Exp a) -> Complex.T (Exp a))
 --   signum = lift1 (Absolute.signum :: Complex.T (Exp a) -> Complex.T (Exp a))
+
 
 -- Accelerate classes
 -- ------------------

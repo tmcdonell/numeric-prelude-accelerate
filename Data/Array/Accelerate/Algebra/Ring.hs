@@ -21,71 +21,70 @@ import Algebra.Ring                                       as Ring
 import qualified Data.Array.Accelerate.Algebra.Additive   as Additive ()
 
 import Data.Array.Accelerate                              as A
-import qualified Prelude                                  as P
 
 
--- instance (C a, Additive.C a, IsNum a, Elt a) => C (Exp a) where
+-- instance (C a, Additive.C a, Num a, Elt a) => C (Exp a) where
 --   one           = constant one
---   (*)           = (P.*)
+--   (*)           = (A.*)
 --   fromInteger x = constant (fromInteger x)
 
 instance C (Exp Int) where
   one           = constant one
-  (*)           = (P.*)
+  (*)           = (A.*)
   fromInteger x = constant (fromInteger x)
 
 instance C (Exp Int8) where
   one           = constant one
-  (*)           = (P.*)
+  (*)           = (A.*)
   fromInteger x = constant (fromInteger x)
 
 instance C (Exp Int16) where
   one           = constant one
-  (*)           = (P.*)
+  (*)           = (A.*)
   fromInteger x = constant (fromInteger x)
 
 instance C (Exp Int32) where
   one           = constant one
-  (*)           = (P.*)
+  (*)           = (A.*)
   fromInteger x = constant (fromInteger x)
 
 instance C (Exp Int64) where
   one           = constant one
-  (*)           = (P.*)
+  (*)           = (A.*)
   fromInteger x = constant (fromInteger x)
 
 instance C (Exp Word) where
   one           = constant one
-  (*)           = (P.*)
+  (*)           = (A.*)
   fromInteger x = constant (fromInteger x)
 
 instance C (Exp Word8) where
   one           = constant one
-  (*)           = (P.*)
+  (*)           = (A.*)
   fromInteger x = constant (fromInteger x)
 
 instance C (Exp Word16) where
   one           = constant one
-  (*)           = (P.*)
+  (*)           = (A.*)
   fromInteger x = constant (fromInteger x)
 
 instance C (Exp Word32) where
   one           = constant one
-  (*)           = (P.*)
+  (*)           = (A.*)
   fromInteger x = constant (fromInteger x)
 
 instance C (Exp Word64) where
   one           = constant one
-  (*)           = (P.*)
+  (*)           = (A.*)
   fromInteger x = constant (fromInteger x)
 
 instance C (Exp Float) where
   one           = constant one
-  (*)           = (P.*)
+  (*)           = (A.*)
   fromInteger x = constant (fromInteger x)
 
 instance C (Exp Double) where
   one           = constant one
-  (*)           = (P.*)
+  (*)           = (A.*)
   fromInteger x = constant (fromInteger x)
 

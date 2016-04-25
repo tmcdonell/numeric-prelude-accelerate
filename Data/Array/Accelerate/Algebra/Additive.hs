@@ -20,86 +20,85 @@ module Data.Array.Accelerate.Algebra.Additive (
 import Algebra.Additive                                   as Additive
 
 import Data.Array.Accelerate                              as A
-import qualified Prelude                                  as P
 
 
 -- One advantage of the below is that C (Exp a) implies C a.
 --
--- instance (Additive.C a, IsNum a, Elt a) => C (Exp a) where
+-- instance (Additive.C a, Num a, Elt a) => C (Exp a) where
 --   zero   = constant zero
---   (+)    = (P.+)
---   (-)    = (P.-)
---   negate = P.negate
+--   (+)    = (A.+)
+--   (-)    = (A.-)
+--   negate = A.negate
 
 instance C (Exp Int) where
   zero   = constant zero
-  (+)    = (P.+)
-  (-)    = (P.-)
-  negate = P.negate
+  (+)    = (A.+)
+  (-)    = (A.-)
+  negate = A.negate
 
 instance C (Exp Int8) where
   zero   = constant zero
-  (+)    = (P.+)
-  (-)    = (P.-)
-  negate = P.negate
+  (+)    = (A.+)
+  (-)    = (A.-)
+  negate = A.negate
 
 instance C (Exp Int16) where
   zero   = constant zero
-  (+)    = (P.+)
-  (-)    = (P.-)
-  negate = P.negate
+  (+)    = (A.+)
+  (-)    = (A.-)
+  negate = A.negate
 
 instance C (Exp Int32) where
   zero   = constant zero
-  (+)    = (P.+)
-  (-)    = (P.-)
-  negate = P.negate
+  (+)    = (A.+)
+  (-)    = (A.-)
+  negate = A.negate
 
 instance C (Exp Int64) where
   zero   = constant zero
-  (+)    = (P.+)
-  (-)    = (P.-)
-  negate = P.negate
+  (+)    = (A.+)
+  (-)    = (A.-)
+  negate = A.negate
 
 instance C (Exp Word) where
   zero   = constant zero
-  (+)    = (P.+)
-  (-)    = (P.-)
-  negate = P.negate
+  (+)    = (A.+)
+  (-)    = (A.-)
+  negate = A.negate
 
 instance C (Exp Word8) where
   zero   = constant zero
-  (+)    = (P.+)
-  (-)    = (P.-)
-  negate = P.negate
+  (+)    = (A.+)
+  (-)    = (A.-)
+  negate = A.negate
 
 instance C (Exp Word16) where
   zero   = constant zero
-  (+)    = (P.+)
-  (-)    = (P.-)
-  negate = P.negate
+  (+)    = (A.+)
+  (-)    = (A.-)
+  negate = A.negate
 
 instance C (Exp Word32) where
   zero   = constant zero
-  (+)    = (P.+)
-  (-)    = (P.-)
-  negate = P.negate
+  (+)    = (A.+)
+  (-)    = (A.-)
+  negate = A.negate
 
 instance C (Exp Word64) where
   zero   = constant zero
-  (+)    = (P.+)
-  (-)    = (P.-)
-  negate = P.negate
+  (+)    = (A.+)
+  (-)    = (A.-)
+  negate = A.negate
 
 instance C (Exp Float) where
   zero   = constant zero
-  (+)    = (P.+)
-  (-)    = (P.-)
-  negate = P.negate
+  (+)    = (A.+)
+  (-)    = (A.-)
+  negate = A.negate
 
 instance C (Exp Double) where
   zero   = constant zero
-  (+)    = (P.+)
-  (-)    = (P.-)
-  negate = P.negate
+  (+)    = (A.+)
+  (-)    = (A.-)
+  negate = A.negate
 

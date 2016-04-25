@@ -24,56 +24,55 @@ import qualified Data.Array.Accelerate.Algebra.IntegralDomain       as IntegralD
 import qualified Data.Array.Accelerate.Algebra.ZeroTestable         as ZeroTestable ()
 
 import Data.Array.Accelerate                                        as A
-import Prelude                                                      as P
 
 
 instance C (Exp Int) where
-  quot    = P.quot
-  rem     = P.rem
-  quotRem = P.quotRem
+  quot    = A.quot
+  rem     = A.rem
+  quotRem = A.quotRem
 
 instance C (Exp Int8) where
-  quot    = P.quot
-  rem     = P.rem
-  quotRem = P.quotRem
+  quot    = A.quot
+  rem     = A.rem
+  quotRem = A.quotRem
 
 instance C (Exp Int16) where
-  quot    = P.quot
-  rem     = P.rem
-  quotRem = P.quotRem
+  quot    = A.quot
+  rem     = A.rem
+  quotRem = A.quotRem
 
 instance C (Exp Int32) where
-  quot    = P.quot
-  rem     = P.rem
-  quotRem = P.quotRem
+  quot    = A.quot
+  rem     = A.rem
+  quotRem = A.quotRem
 
 instance C (Exp Int64) where
-  quot    = P.quot
-  rem     = P.rem
-  quotRem = P.quotRem
+  quot    = A.quot
+  rem     = A.rem
+  quotRem = A.quotRem
 
 instance C (Exp Word) where
-  quot    = P.quot
-  rem     = P.rem
-  quotRem = P.quotRem
+  quot    = A.quot
+  rem     = A.rem
+  quotRem = A.quotRem
 
 instance C (Exp Word8) where
-  quot    = P.quot
-  rem     = P.rem
-  quotRem = P.quotRem
+  quot    = A.quot
+  rem     = A.rem
+  quotRem = A.quotRem
 
 instance C (Exp Word16) where
-  quot    = P.quot
-  rem     = P.rem
-  quotRem = P.quotRem
+  quot    = A.quot
+  rem     = A.rem
+  quotRem = A.quotRem
 
 instance C (Exp Word32) where
-  quot    = P.quot
-  rem     = P.rem
-  quotRem = P.quotRem
+  quot    = A.quot
+  rem     = A.rem
+  quotRem = A.quotRem
 
 instance C (Exp Word64) where
-  quot    = P.quot
-  rem     = P.rem
-  quotRem = P.quotRem
+  quot    = A.quot
+  rem     = A.rem
+  quotRem = A.quotRem
 

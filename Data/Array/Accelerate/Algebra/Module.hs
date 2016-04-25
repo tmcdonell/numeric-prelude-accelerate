@@ -24,7 +24,6 @@ import qualified Data.Array.Accelerate.Algebra.Additive             as Additive 
 import qualified Data.Array.Accelerate.Algebra.Ring                 as Ring ()
 
 import Data.Array.Accelerate                                        as A
-import Prelude                                                      as P
 
 
 instance Module.C (Exp Int) (Exp Int) where
