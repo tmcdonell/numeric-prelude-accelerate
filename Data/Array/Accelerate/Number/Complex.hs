@@ -5,6 +5,7 @@
 {-# LANGUAGE FlexibleInstances     #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE NoImplicitPrelude     #-}
+{-# LANGUAGE RebindableSyntax      #-}
 {-# LANGUAGE ScopedTypeVariables   #-}
 {-# LANGUAGE StandaloneDeriving    #-}
 {-# LANGUAGE TypeFamilies          #-}
@@ -37,9 +38,9 @@ module Data.Array.Accelerate.Number.Complex (
   -- toPolar,
   -- fromPolar,
   -- cis,
-  -- signum,
+  signum,
   -- signumNorm,
-  -- magnitude,
+  magnitude,
   magnitudeSqr,
   -- phase,
 
@@ -149,8 +150,8 @@ quarterLeft = lift1 (Complex.quarterLeft :: Complex.T (Exp a) -> Complex.T (Exp 
 
 -- | The non-negative magnitude of a complex number.
 --
--- magnitude :: (Algebraic.C a) => T a -> a
--- magnitude = sqrt . magnitudeSqr
+magnitude :: (Algebraic.C (Exp a), Elt a) => Exp (Complex.T a) -> Exp a
+magnitude = Algebraic.sqrt . magnitudeSqr
 
 -- | Like NormedEuc.normSqr with lifted class constraints
 --
@@ -172,11 +173,11 @@ magnitudeSqr = lift1 (Complex.magnitudeSqr :: Complex.T (Exp a) -> Exp a)
 -- but oriented in the positive real direction, whereas @'signum' z@ has the
 -- phase of @z@, but unit magnitude.
 --
--- signum :: (Algebraic.C a, ZeroTestable.C a) => T a -> T a
--- signum z =
---    if isZero z
---      then zero
---      else scale (recip (magnitude z)) z
+signum :: (Algebraic.C (Exp a), ZeroTestable.C (Exp a), Elt a) => Exp (Complex.T a) -> Exp (Complex.T a)
+signum z =
+   if ZeroTestable.isZero z
+     then Additive.zero
+     else scale (Field.recip (magnitude z)) z
 
 -- signumNorm :: (Algebraic.C a, NormedEuc.C a a, ZeroTestable.C a) => T a -> T a
 -- signumNorm z =
@@ -207,9 +208,9 @@ instance (Ring.C (Exp a), Elt a) => Ring.C (Exp (Complex.T a)) where
   one           = lift (Ring.one :: Complex.T (Exp a))
   fromInteger x = lift (Ring.fromInteger x :: Complex.T (Exp a))
 
--- instance (Absolute.C (Exp a), Elt a) => Absolute.C (Exp (Complex.T a)) where
---   abs    = lift1 (Absolute.abs    :: Complex.T (Exp a) -> Complex.T (Exp a))
---   signum = lift1 (Absolute.signum :: Complex.T (Exp a) -> Complex.T (Exp a))
+instance (Absolute.C (Exp a), Algebraic.C (Exp a), ZeroTestable.C (Exp a), Elt a) => Absolute.C (Exp (Complex.T a)) where
+  abs x  = magnitude x +: Additive.zero
+  signum = signum
 
 instance (ZeroTestable.C (Exp a), Elt a) => ZeroTestable.C (Exp (Complex.T a)) where
   isZero c = ZeroTestable.isZero (real c)
