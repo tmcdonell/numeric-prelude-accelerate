@@ -1,5 +1,7 @@
-{-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE NoImplicitPrelude #-}
+{-# LANGUAGE FlexibleContexts    #-}
+{-# LANGUAGE FlexibleInstances   #-}
+{-# LANGUAGE NoImplicitPrelude   #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 -- |
 -- Module      : Data.Array.Accelerate.Algebra.Additive
@@ -20,6 +22,8 @@ module Data.Array.Accelerate.Algebra.Additive (
 import Algebra.Additive                                   as Additive
 
 import Data.Array.Accelerate                              as A
+
+import Data.Function
 
 
 -- One advantage of the below is that C (Exp a) implies C a.
@@ -101,4 +105,10 @@ instance C (Exp Double) where
   (+)    = (A.+)
   (-)    = (A.-)
   negate = A.negate
+
+instance (Elt a, Elt b, C (Exp a), C (Exp b)) => C (Exp (a,b)) where
+  zero     = lift (zero :: Exp a, zero :: Exp b)
+  x + y    = lift (on (Additive.+) fst x y, on (Additive.+) snd x y)
+  x - y    = lift (on (Additive.-) fst x y, on (Additive.-) snd x y)
+  negate x = lift (Additive.negate (fst x), Additive.negate (snd x))
 
