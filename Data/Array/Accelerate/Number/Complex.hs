@@ -208,6 +208,10 @@ instance (Ring.C (Exp a), Elt a) => Ring.C (Exp (Complex.T a)) where
   one           = lift (Ring.one :: Complex.T (Exp a))
   fromInteger x = lift (Ring.fromInteger x :: Complex.T (Exp a))
 
+instance (Field.C (Exp a), Elt a) => Field.C (Exp (Complex.T a)) where
+  (/)             = lift2 ((Field./) :: Complex.T (Exp a) -> Complex.T (Exp a) -> Complex.T (Exp a))
+  fromRational' x = lift (Field.fromRational' x :: Complex.T (Exp a))
+
 instance (Absolute.C (Exp a), Algebraic.C (Exp a), ZeroTestable.C (Exp a), Elt a) => Absolute.C (Exp (Complex.T a)) where
   abs x  = magnitude x +: Additive.zero
   signum = signum
