@@ -1,5 +1,7 @@
-{-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE NoImplicitPrelude #-}
+{-# LANGUAGE FlexibleContexts    #-}
+{-# LANGUAGE FlexibleInstances   #-}
+{-# LANGUAGE NoImplicitPrelude   #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 -- |
 -- Module      : Data.Array.Accelerate.Algebra.Ring
@@ -21,6 +23,8 @@ import Algebra.Ring                                       as Ring
 import qualified Data.Array.Accelerate.Algebra.Additive   as Additive ()
 
 import Data.Array.Accelerate                              as A
+
+import Data.Function
 
 
 -- instance (C a, Additive.C a, Num a, Elt a) => C (Exp a) where
@@ -88,8 +92,8 @@ instance C (Exp Double) where
   (*)           = (A.*)
   fromInteger x = constant (fromInteger x)
 
--- instance (Elt a, Elt b, C (Exp a), C (Exp b)) => C (Exp (a,b)) where
---   one           = lift (one :: Exp a, one :: Exp b)
---   x * y         = lift (on (Ring.*) fst x y, on (Ring.*) snd x y)
---   fromInteger x = lift (fromInteger x :: Exp a, fromInteger x :: Exp b)
+instance (Elt a, Elt b, C (Exp a), C (Exp b)) => C (Exp (a,b)) where
+  one           = lift (one :: Exp a, one :: Exp b)
+  x * y         = lift (on (Ring.*) fst x y, on (Ring.*) snd x y)
+  fromInteger x = lift (fromInteger x :: Exp a, fromInteger x :: Exp b)
 
