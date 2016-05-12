@@ -30,8 +30,9 @@ import qualified Data.Array.Accelerate.Algebra.Ring           as Ring
 import Data.Bool
 import Data.Int
 import Data.Word
+import Data.Function
 
-import Data.Array.Accelerate                                  ( Exp, Elt, lift, (?) )
+import Data.Array.Accelerate                                  ( Exp, Elt, lift, (?), fst, snd )
 import qualified Data.Array.Accelerate                        as A
 
 
@@ -108,4 +109,11 @@ instance C (Exp Word32) where
 
 instance C (Exp Word64) where
   divMod = A.divMod
+
+instance (C (Exp a), C (Exp b), Elt a, Elt b) => C (Exp (a,b)) where
+  divMod x y = let
+                  (d1,m1) = (divMod `on` fst) x y
+                  (d2,m2) = (divMod `on` snd) x y
+               in
+               (lift (d1,d2), lift (m1,m2))
 
