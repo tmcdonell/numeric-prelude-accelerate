@@ -72,7 +72,7 @@ sameResidueClass m x y = divides m (x-y)
 even :: (C (Exp a), ZeroTestable.C (Exp a), Elt a)
      => Exp a
      -> Exp Bool
-even n = divides (Ring.fromInteger 2) n
+even = divides (Ring.fromInteger 2)
 
 odd :: (C (Exp a), ZeroTestable.C (Exp a), Elt a)
     => Exp a
