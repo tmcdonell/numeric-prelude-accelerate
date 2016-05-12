@@ -27,6 +27,7 @@ library
       Data.Array.Accelerate.Algebra.Field
       Data.Array.Accelerate.Algebra.IntegralDomain
       Data.Array.Accelerate.Algebra.Module
+      Data.Array.Accelerate.Algebra.PrincipalIdealDomain
       Data.Array.Accelerate.Algebra.RealIntegral
       Data.Array.Accelerate.Algebra.Ring
       Data.Array.Accelerate.Algebra.ToInteger
@@ -38,4 +39,6 @@ library
       Data.Array.Accelerate.Number.Complex
 
   ghc-options:        -Wall
+
+-- vim: nospell
 
