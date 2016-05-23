@@ -29,6 +29,7 @@ library
       Data.Array.Accelerate.Algebra.Module
       Data.Array.Accelerate.Algebra.PrincipalIdealDomain
       Data.Array.Accelerate.Algebra.RealIntegral
+      Data.Array.Accelerate.Algebra.RealRing
       Data.Array.Accelerate.Algebra.Ring
       Data.Array.Accelerate.Algebra.ToInteger
       Data.Array.Accelerate.Algebra.ToRational
