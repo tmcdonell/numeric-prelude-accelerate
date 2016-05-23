@@ -31,6 +31,7 @@ library
       Data.Array.Accelerate.Algebra.RealField
       Data.Array.Accelerate.Algebra.RealIntegral
       Data.Array.Accelerate.Algebra.RealRing
+      Data.Array.Accelerate.Algebra.RealTranscendental
       Data.Array.Accelerate.Algebra.Ring
       Data.Array.Accelerate.Algebra.ToInteger
       Data.Array.Accelerate.Algebra.ToRational
