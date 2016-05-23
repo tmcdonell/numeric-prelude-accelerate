@@ -10,6 +10,7 @@
 {-# LANGUAGE StandaloneDeriving    #-}
 {-# LANGUAGE TypeFamilies          #-}
 {-# LANGUAGE UndecidableInstances  #-}
+{-# LANGUAGE ViewPatterns          #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 -- |
 -- Module      : Data.Array.Accelerate.Number.Complex
@@ -31,18 +32,18 @@ module Data.Array.Accelerate.Number.Complex (
   (+:),
   (-:),
   scale,
-  -- exp,
+  exp,
   quarterLeft, quarterRight,
 
   -- * Polar form
-  -- toPolar,
-  -- fromPolar,
-  -- cis,
+  toPolar,
+  fromPolar,
+  cis,
   signum,
   -- signumNorm,
   magnitude,
   magnitudeSqr,
-  -- phase,
+  phase,
 
   -- * Conjugate
   conjugate,
@@ -55,13 +56,25 @@ import qualified Data.Array.Accelerate.Algebra.Absolute             as Absolute
 import qualified Data.Array.Accelerate.Algebra.Additive             as Additive
 import qualified Data.Array.Accelerate.Algebra.Algebraic            as Algebraic
 import qualified Data.Array.Accelerate.Algebra.Field                as Field
+import qualified Data.Array.Accelerate.Algebra.RealTranscendental   as RealTrans
 import qualified Data.Array.Accelerate.Algebra.Ring                 as Ring
+import qualified Data.Array.Accelerate.Algebra.Transcendental       as Trans
 import qualified Data.Array.Accelerate.Algebra.ZeroTestable         as ZeroTestable
 
-import Data.Array.Accelerate                                        as A hiding ( signum )
+import Data.Array.Accelerate.Algebra.Absolute                       hiding ( C, signum )
+import Data.Array.Accelerate.Algebra.Additive                       hiding ( C )
+import Data.Array.Accelerate.Algebra.Algebraic                      hiding ( C )
+import Data.Array.Accelerate.Algebra.Field                          hiding ( C )
+import Data.Array.Accelerate.Algebra.RealTranscendental             hiding ( C )
+import Data.Array.Accelerate.Algebra.Ring                           hiding ( C )
+import Data.Array.Accelerate.Algebra.Transcendental                 hiding ( C, exp )
+import Data.Array.Accelerate.Algebra.ZeroTestable                   hiding ( C )
+
+import Data.Array.Accelerate                                        ( Lift(..), Unlift(..), (&&*), (<*), lift1, lift2, ifThenElse )
 import Data.Array.Accelerate.Smart
 import Data.Array.Accelerate.Product
 import Data.Array.Accelerate.Array.Sugar
+import qualified Data.Array.Accelerate                              as A
 
 import Prelude                                                      ( ($), (.), undefined )
 
@@ -74,6 +87,9 @@ infix 6 +:
 
 -- Cartesian form
 -- --------------
+
+uncons :: Elt a => Exp (Complex.T a) -> (Exp a, Exp a)
+uncons z = (real z, imag z)
 
 -- | Real part
 --
@@ -101,8 +117,8 @@ scale = lift2 (Complex.scale :: Exp a -> Complex.T (Exp a) -> Complex.T (Exp a))
 
 -- | Exponential of a complex number with minimal type class constraints.
 --
--- exp :: (Trans.C a) => T a -> T a
--- exp (Cons x y) =  scale (Trans.exp x) (cis y)
+exp :: forall a. (Trans.C (Exp a), Elt a) => Exp (Complex.T a) -> Exp (Complex.T a)
+exp = lift1 (Complex.exp :: Complex.T (Exp a) -> Complex.T (Exp a))
 
 -- | Turn the point one quarter to the right.
 --
@@ -121,19 +137,19 @@ quarterLeft = lift1 (Complex.quarterLeft :: Complex.T (Exp a) -> Complex.T (Exp 
 -- phase) pair in canonical form: the magnitude is non-negative, and the phase
 -- in the range @(-'pi', 'pi']@; if the magnitude is zero, then so is the phase.
 --
--- toPolar :: (RealTrans.C a, ZeroTestable.C a) => T a -> (a,a)
--- toPolar z = (magnitude z, phase z)
+toPolar :: (RealTrans.C (Exp a), ZeroTestable.C (Exp a), Elt a) => Exp (Complex.T a) -> Exp (a, a)
+toPolar z = lift (magnitude z, phase z)
 
 -- | Form a complex number from polar components of magnitude and phase.
 --
--- fromPolar :: (Trans.C a) => a -> a -> T a
--- fromPolar r theta =  scale r (cis theta)
+fromPolar :: (Trans.C (Exp a), Elt a) => Exp a -> Exp a -> Exp (Complex.T a)
+fromPolar r theta = scale r (cis theta)
 
 -- | @'cis' t@ is a complex value with magnitude @1@ and phase @t@ (modulo
 -- @2*'pi'@).
 --
--- cis :: (Trans.C a) => a -> T a
--- cis theta =  Cons (cos theta) (sin theta)
+cis :: forall a. (Trans.C (Exp a), Elt a) => Exp a -> Exp (Complex.T a)
+cis = lift1 (Complex.cis :: Exp a -> Complex.T (Exp a))
 
 -- | The non-negative magnitude of a complex number. This implementation
 -- respects the limited range of floating point numbers. The trivial
@@ -151,7 +167,7 @@ quarterLeft = lift1 (Complex.quarterLeft :: Complex.T (Exp a) -> Complex.T (Exp 
 -- | The non-negative magnitude of a complex number.
 --
 magnitude :: (Algebraic.C (Exp a), Elt a) => Exp (Complex.T a) -> Exp a
-magnitude = Algebraic.sqrt . magnitudeSqr
+magnitude = sqrt . magnitudeSqr
 
 -- | Like NormedEuc.normSqr with lifted class constraints
 --
@@ -161,11 +177,11 @@ magnitudeSqr = lift1 (Complex.magnitudeSqr :: Complex.T (Exp a) -> Exp a)
 -- | The phase of a complex number, in the range @(-'pi', 'pi']@. If the
 -- magnitude is zero, then so is the phase.
 --
--- phase :: (RealTrans.C a, ZeroTestable.C a) => T a -> a
--- phase z =
---    if isZero z
---      then zero   -- SLPJ July 97 from John Peterson
---      else case z of (Cons x y) -> atan2 y x
+phase :: (RealTrans.C (Exp a), ZeroTestable.C (Exp a), Elt a) => Exp (Complex.T a) -> Exp a
+phase z =
+  if isZero z
+     then zero
+     else atan2 (imag z) (real z)
 
 -- | Scale a complex number to magnitude 1.
 --
@@ -175,9 +191,9 @@ magnitudeSqr = lift1 (Complex.magnitudeSqr :: Complex.T (Exp a) -> Exp a)
 --
 signum :: (Algebraic.C (Exp a), ZeroTestable.C (Exp a), Elt a) => Exp (Complex.T a) -> Exp (Complex.T a)
 signum z =
-   if ZeroTestable.isZero z
-     then Additive.zero
-     else scale (Field.recip (magnitude z)) z
+   if isZero z
+     then zero
+     else scale (recip (magnitude z)) z
 
 -- signumNorm :: (Algebraic.C a, NormedEuc.C a a, ZeroTestable.C a) => T a -> T a
 -- signumNorm z =
@@ -198,27 +214,59 @@ conjugate = lift1 (Complex.conjugate :: Complex.T (Exp a) -> Complex.T (Exp a))
 -- -------------------------
 
 instance (Additive.C (Exp a), Elt a) => Additive.C (Exp (Complex.T a)) where
-  zero   = lift (Additive.zero :: Complex.T (Exp a))
-  (+)    = lift2 ((Additive.+) :: Complex.T (Exp a) -> Complex.T (Exp a) -> Complex.T (Exp a))
-  (-)    = lift2 ((Additive.-) :: Complex.T (Exp a) -> Complex.T (Exp a) -> Complex.T (Exp a))
-  negate = lift1 (Additive.negate :: Complex.T (Exp a) -> Complex.T (Exp a))
+  zero   = lift (zero :: Complex.T (Exp a))
+  (+)    = lift2 ((+) :: Complex.T (Exp a) -> Complex.T (Exp a) -> Complex.T (Exp a))
+  (-)    = lift2 ((-) :: Complex.T (Exp a) -> Complex.T (Exp a) -> Complex.T (Exp a))
+  negate = lift1 (negate :: Complex.T (Exp a) -> Complex.T (Exp a))
 
 instance (Ring.C (Exp a), Elt a) => Ring.C (Exp (Complex.T a)) where
-  (*)           = lift2 ((Ring.*) :: Complex.T (Exp a) -> Complex.T (Exp a) -> Complex.T (Exp a))
-  one           = lift (Ring.one :: Complex.T (Exp a))
-  fromInteger x = lift (Ring.fromInteger x :: Complex.T (Exp a))
+  (*)           = lift2 ((*) :: Complex.T (Exp a) -> Complex.T (Exp a) -> Complex.T (Exp a))
+  one           = lift (one :: Complex.T (Exp a))
+  fromInteger x = lift (fromInteger x :: Complex.T (Exp a))
 
 instance (Field.C (Exp a), Elt a) => Field.C (Exp (Complex.T a)) where
-  (/)             = lift2 ((Field./) :: Complex.T (Exp a) -> Complex.T (Exp a) -> Complex.T (Exp a))
-  fromRational' x = lift (Field.fromRational' x :: Complex.T (Exp a))
+  (/)             = lift2 ((/) :: Complex.T (Exp a) -> Complex.T (Exp a) -> Complex.T (Exp a))
+  fromRational' x = lift (fromRational' x :: Complex.T (Exp a))
 
 instance (Absolute.C (Exp a), Algebraic.C (Exp a), ZeroTestable.C (Exp a), Elt a) => Absolute.C (Exp (Complex.T a)) where
-  abs x  = magnitude x +: Additive.zero
+  abs x  = magnitude x +: zero
   signum = signum
 
 instance (ZeroTestable.C (Exp a), Elt a) => ZeroTestable.C (Exp (Complex.T a)) where
-  isZero c = ZeroTestable.isZero (real c)
-         &&* ZeroTestable.isZero (imag c)
+  isZero c = isZero (real c)
+         &&* isZero (imag c)
+
+instance (Absolute.C (Exp a), Algebraic.C (Exp a), Field.C (Exp a), RealTrans.C (Exp a), Trans.C (Exp a), ZeroTestable.C (Exp a), A.Ord a, Elt a)
+    => Algebraic.C (Exp (Complex.T a)) where
+  sqrt z@(uncons -> (x,y)) =
+    if isZero z
+       then zero
+       else let
+                u'  = sqrt ((magnitude z + abs x) / 2)
+                v'  = abs y / (u' * 2)
+                u   = if x <* zero then v' else u'
+                v   = if x <* zero then u' else v'
+            in
+            u +: if y <* zero then -v else v
+  --
+  x ^/ r =
+    let (mag, arg) = unlift (toPolar x)
+    in  fromPolar (mag ^/ r) (arg * fromRational' r)
+
+instance (Field.C (Exp a), RealTrans.C (Exp a), Trans.C (Exp a), ZeroTestable.C (Exp a), A.Ord a, Elt a)
+    => Trans.C (Exp (Complex.T a)) where
+  pi    = pi +: zero
+  exp   = exp
+  log z = let (m,p) = unlift (toPolar z)
+          in  log m +: p
+  sin  (uncons -> (x,y))   = (sin x * cosh y) +: ( cos x * sinh y)
+  cos  (uncons -> (x,y))   = (cos x * cosh y) +: (-sin x * sinh y)
+  sinh (uncons -> (x,y))   = (cos y * sinh x) +: ( sin y * cosh x)
+  cosh (uncons -> (x,y))   = (cos y * cosh x) +: ( sin y * sinh x)
+  asin z                   = quarterRight (log (quarterLeft z + sqrt (1 - z^2)))
+  acos z                   = quarterRight (log (z + quarterLeft (sqrt (1 - z^2))))
+  atan z@(uncons -> (x,y)) = quarterRight (log (((1-y) +: x) / sqrt (1+z^2)))
+
 
 -- Accelerate classes
 -- ------------------
