@@ -116,6 +116,12 @@ instance NP.C (Exp Word16) where isZero = npIsZeroError
 instance NP.C (Exp Word32) where isZero = npIsZeroError
 instance NP.C (Exp Word64) where isZero = npIsZeroError
 
+instance (NP.C (Exp a), NP.C (Exp b)) => NP.C (Exp (a,b)) where
+  isZero = npIsZeroError
+
+instance (NP.C (Exp a), NP.C (Exp b), NP.C (Exp c)) => NP.C (Exp (a,b,c)) where
+  isZero = npIsZeroError
+
 
 npIsZeroError :: a -> Bool
 npIsZeroError
