@@ -35,65 +35,65 @@ import Data.Function
 instance C (Exp Int) where
   one           = constant one
   (*)           = (A.*)
-  fromInteger x = constant (fromInteger x)
+  fromInteger x = A.fromInteger x
 
 instance C (Exp Int8) where
   one           = constant one
   (*)           = (A.*)
-  fromInteger x = constant (fromInteger x)
+  fromInteger x = A.fromInteger x
 
 instance C (Exp Int16) where
   one           = constant one
   (*)           = (A.*)
-  fromInteger x = constant (fromInteger x)
+  fromInteger x = A.fromInteger x
 
 instance C (Exp Int32) where
   one           = constant one
   (*)           = (A.*)
-  fromInteger x = constant (fromInteger x)
+  fromInteger x = A.fromInteger x
 
 instance C (Exp Int64) where
   one           = constant one
   (*)           = (A.*)
-  fromInteger x = constant (fromInteger x)
+  fromInteger x = A.fromInteger x
 
 instance C (Exp Word) where
   one           = constant one
   (*)           = (A.*)
-  fromInteger x = constant (fromInteger x)
+  fromInteger x = A.fromInteger x
 
 instance C (Exp Word8) where
   one           = constant one
   (*)           = (A.*)
-  fromInteger x = constant (fromInteger x)
+  fromInteger x = A.fromInteger x
 
 instance C (Exp Word16) where
   one           = constant one
   (*)           = (A.*)
-  fromInteger x = constant (fromInteger x)
+  fromInteger x = A.fromInteger x
 
 instance C (Exp Word32) where
   one           = constant one
   (*)           = (A.*)
-  fromInteger x = constant (fromInteger x)
+  fromInteger x = A.fromInteger x
 
 instance C (Exp Word64) where
   one           = constant one
   (*)           = (A.*)
-  fromInteger x = constant (fromInteger x)
+  fromInteger x = A.fromInteger x
 
 instance C (Exp Float) where
   one           = constant one
   (*)           = (A.*)
-  fromInteger x = constant (fromInteger x)
+  fromInteger x = A.fromInteger x
 
 instance C (Exp Double) where
   one           = constant one
   (*)           = (A.*)
-  fromInteger x = constant (fromInteger x)
+  fromInteger x = A.fromInteger x
 
 instance (Elt a, Elt b, C (Exp a), C (Exp b)) => C (Exp (a,b)) where
   one           = lift (one :: Exp a, one :: Exp b)
   x * y         = lift (on (Ring.*) fst x y, on (Ring.*) snd x y)
-  fromInteger x = lift (fromInteger x :: Exp a, fromInteger x :: Exp b)
+  fromInteger x = lift (Ring.fromInteger x :: Exp a, Ring.fromInteger x :: Exp b)
 
