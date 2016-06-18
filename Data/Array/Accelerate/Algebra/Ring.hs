@@ -23,6 +23,7 @@ import Algebra.Ring                                       as Ring
 import qualified Data.Array.Accelerate.Algebra.Additive   as Additive ()
 
 import Data.Array.Accelerate                              as A
+import Prelude                                            as A ( fromInteger ) -- ghc < 8.0 bug
 
 import Data.Function
 
