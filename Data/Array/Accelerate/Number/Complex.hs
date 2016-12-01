@@ -70,7 +70,7 @@ import Data.Array.Accelerate.Algebra.Ring                           hiding ( C )
 import Data.Array.Accelerate.Algebra.Transcendental                 hiding ( C, exp )
 import Data.Array.Accelerate.Algebra.ZeroTestable                   hiding ( C )
 
-import Data.Array.Accelerate                                        ( Lift(..), Unlift(..), (&&*), (<*), lift1, lift2, ifThenElse )
+import Data.Array.Accelerate                                        ( Lift(..), Unlift(..), (&&), (<), lift1, lift2, ifThenElse )
 import Data.Array.Accelerate.Smart
 import Data.Array.Accelerate.Product
 import Data.Array.Accelerate.Array.Sugar
@@ -234,7 +234,7 @@ instance (Absolute.C (Exp a), Algebraic.C (Exp a), ZeroTestable.C (Exp a), Elt a
 
 instance (ZeroTestable.C (Exp a), Elt a) => ZeroTestable.C (Exp (Complex.T a)) where
   isZero c = isZero (real c)
-         &&* isZero (imag c)
+          && isZero (imag c)
 
 instance (Absolute.C (Exp a), Algebraic.C (Exp a), Field.C (Exp a), RealTrans.C (Exp a), Trans.C (Exp a), ZeroTestable.C (Exp a), A.Ord a, Elt a)
     => Algebraic.C (Exp (Complex.T a)) where
@@ -244,10 +244,10 @@ instance (Absolute.C (Exp a), Algebraic.C (Exp a), Field.C (Exp a), RealTrans.C 
        else let
                 u'  = sqrt ((magnitude z + abs x) / 2)
                 v'  = abs y / (u' * 2)
-                u   = if x <* zero then v' else u'
-                v   = if x <* zero then u' else v'
+                u   = if x < zero then v' else u'
+                v   = if x < zero then u' else v'
             in
-            u +: if y <* zero then -v else v
+            u +: if y < zero then -v else v
   --
   x ^/ r =
     let (mag, arg) = unlift (toPolar x)

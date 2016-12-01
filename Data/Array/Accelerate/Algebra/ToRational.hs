@@ -25,7 +25,7 @@ import qualified Data.Array.Accelerate.Algebra.Absolute             as Absolute 
 import qualified Data.Array.Accelerate.Algebra.ZeroTestable         as ZeroTestable ()
 
 import Data.Array.Accelerate                                        as A
-import Prelude                                                      as P ( ($), error, unlines )
+import Data.List                                                    ( unlines )
 
 
 instance C (Exp Int)    where toRational = npToRationalError

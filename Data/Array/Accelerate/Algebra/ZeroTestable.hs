@@ -25,7 +25,7 @@ import qualified Data.Array.Accelerate.Algebra.Additive   as Additive
 import qualified Algebra.ZeroTestable                     as NP
 
 import Data.Array.Accelerate                              as A
-import Prelude                                            as P ( ($), error, unlines )
+import Data.List                                          ( unlines )
 
 
 class C a where
@@ -50,39 +50,39 @@ instance C (Exp Z) where
   isZero _ = constant True
 
 instance (C (Exp sh), Slice sh) => C (Exp (sh :. Int)) where
-  isZero sh = isZero (indexHead sh) &&* isZero (indexTail sh)
+  isZero sh = isZero (indexHead sh) && isZero (indexTail sh)
 
 instance (C (Exp a), C (Exp b), Elt a, Elt b) => C (Exp (a, b)) where
   isZero x = let (a,b) = unlift x :: (Exp a, Exp b)
-             in  isZero a &&* isZero b
+             in  isZero a && isZero b
 
 instance (C (Exp a), C (Exp b), C (Exp c), Elt a, Elt b, Elt c) => C (Exp (a, b, c)) where
   isZero x = let (a,b,c) = unlift x :: (Exp a, Exp b, Exp c)
-             in  isZero a &&* isZero b &&* isZero c
+             in  isZero a && isZero b && isZero c
 
 instance (C (Exp a), C (Exp b), C (Exp c), C (Exp d), Elt a, Elt b, Elt c, Elt d) => C (Exp (a, b, c, d)) where
   isZero x = let (a,b,c,d) = unlift x :: (Exp a, Exp b, Exp c, Exp d)
-             in  isZero a &&* isZero b &&* isZero c &&* isZero d
+             in  isZero a && isZero b && isZero c && isZero d
 
 instance (C (Exp a), C (Exp b), C (Exp c), C (Exp d), C (Exp e), Elt a, Elt b, Elt c, Elt d, Elt e) => C (Exp (a, b, c, d, e)) where
   isZero x = let (a,b,c,d,e) = unlift x :: (Exp a, Exp b, Exp c, Exp d, Exp e)
-             in  isZero a &&* isZero b &&* isZero c &&* isZero d &&* isZero e
+             in  isZero a && isZero b && isZero c && isZero d && isZero e
 
 instance (C (Exp a), C (Exp b), C (Exp c), C (Exp d), C (Exp e), C (Exp f), Elt a, Elt b, Elt c, Elt d, Elt e, Elt f) => C (Exp (a, b, c, d, e, f)) where
   isZero x = let (a,b,c,d,e,f) = unlift x :: (Exp a, Exp b, Exp c, Exp d, Exp e, Exp f)
-             in  isZero a &&* isZero b &&* isZero c &&* isZero d &&* isZero e &&* isZero f
+             in  isZero a && isZero b && isZero c && isZero d && isZero e && isZero f
 
 instance (C (Exp a), C (Exp b), C (Exp c), C (Exp d), C (Exp e), C (Exp f), C (Exp g), Elt a, Elt b, Elt c, Elt d, Elt e, Elt f, Elt g) => C (Exp (a, b, c, d, e, f, g)) where
   isZero x = let (a,b,c,d,e,f,g) = unlift x :: (Exp a, Exp b, Exp c, Exp d, Exp e, Exp f, Exp g)
-             in  isZero a &&* isZero b &&* isZero c &&* isZero d &&* isZero e &&* isZero f &&* isZero g
+             in  isZero a && isZero b && isZero c && isZero d && isZero e && isZero f && isZero g
 
 instance (C (Exp a), C (Exp b), C (Exp c), C (Exp d), C (Exp e), C (Exp f), C (Exp g), C (Exp h), Elt a, Elt b, Elt c, Elt d, Elt e, Elt f, Elt g, Elt h) => C (Exp (a, b, c, d, e, f, g, h)) where
   isZero x = let (a,b,c,d,e,f,g,h) = unlift x :: (Exp a, Exp b, Exp c, Exp d, Exp e, Exp f, Exp g, Exp h)
-             in  isZero a &&* isZero b &&* isZero c &&* isZero d &&* isZero e &&* isZero f &&* isZero g &&* isZero h
+             in  isZero a && isZero b && isZero c && isZero d && isZero e && isZero f && isZero g && isZero h
 
 instance (C (Exp a), C (Exp b), C (Exp c), C (Exp d), C (Exp e), C (Exp f), C (Exp g), C (Exp h), C (Exp i), Elt a, Elt b, Elt c, Elt d, Elt e, Elt f, Elt g, Elt h, Elt i) => C (Exp (a, b, c, d, e, f, g, h, i)) where
   isZero x = let (a,b,c,d,e,f,g,h,i) = unlift x :: (Exp a, Exp b, Exp c, Exp d, Exp e, Exp f, Exp g, Exp h, Exp i)
-             in  isZero a &&* isZero b &&* isZero c &&* isZero d &&* isZero e &&* isZero f &&* isZero g &&* isZero h &&* isZero i
+             in  isZero a && isZero b && isZero c && isZero d && isZero e && isZero f && isZero g && isZero h && isZero i
 
 
 -- | Checks if a number is the zero element. This test is not possible for all
@@ -95,7 +95,7 @@ instance (C (Exp a), C (Exp b), C (Exp c), C (Exp d), C (Exp e), C (Exp f), C (E
 -- is unknown).
 --
 defltIsZero :: (Additive.C (Exp a), A.Eq a, Elt a) => Exp a -> Exp Bool
-defltIsZero = (Additive.zero ==*)
+defltIsZero = (Additive.zero ==)
 
 
 -- Vacuous instances to satisfy NP superclass constraints

@@ -32,7 +32,7 @@ import Data.Array.Accelerate.Algebra.ZeroTestable                   ( isZero )
 
 import qualified Algebra.Units                                      as NP
 
-import Data.Array.Accelerate                                        as A ( Exp, Elt, Eq(..), (||*), ifThenElse )
+import Data.Array.Accelerate                                        as A ( Exp, Elt, Eq(..), (||), ifThenElse )
 import Data.Array.Accelerate.Type                                   as A
 import Prelude                                                      as P ( ($), error, unlines )
 
@@ -125,7 +125,7 @@ instance NP.C (Exp Int64) where
 -- Default instance for atomic types
 --
 defltIsUnit :: (A.Eq a, Ring.C (Exp a)) => Exp a -> Exp Bool
-defltIsUnit x = x ==* one ||* x ==* negate one
+defltIsUnit x = x == one || x == negate one
 
 defltStdAssociate :: Absolute.C (Exp a) => Exp a -> Exp a
 defltStdAssociate = abs
