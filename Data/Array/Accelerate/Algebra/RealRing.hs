@@ -25,12 +25,10 @@ import Data.Array.Accelerate.Algebra.ToInteger                      as ToInteger
 -- import Data.Array.Accelerate.Algebra.Ring                           as Ring
 -- import Data.Array.Accelerate.Algebra.Absolute                       as Absolute
 
-import Data.Array.Accelerate                                        hiding ( (+), (-), (*), fromIntegral )
--- import qualified Data.Array.Accelerate                              as A
+import Data.Array.Accelerate                                        ( Exp )
 
--- import Prelude                                                      ( (.) )
+import Prelude                                                      ( (++), ($), Int, Float, Double, String, error )
 
--- import Data.Array.Accelerate                                        as A ( Exp, Elt, Ord, lift, (>=*), (?) )
 
 -- These are likely to fail as they depend on ToInteger.fromIntegral, which only
 -- makes sense if GHC rewrite rules fire.
@@ -45,22 +43,23 @@ instance RealRing.C (Exp Int) where
   round           = fromIntegral
   truncate        = fromIntegral
 
-instance RealRing.C (Exp Float)
---   floor           = A.floor
---   ceiling         = A.ceiling
---   round           = A.round
---   truncate        = A.truncate
+instance RealRing.C (Exp Float) where
+  fraction        = npError "fraction"
+  floor           = npError "floor"
+  ceiling         = npError "ceiling"
+  round           = npError "round"
+  truncate        = npError "truncate"
 
-instance RealRing.C (Exp Double)
+instance RealRing.C (Exp Double) where
+  fraction        = npError "fraction"
+  floor           = npError "floor"
+  ceiling         = npError "ceiling"
+  round           = npError "round"
+  truncate        = npError "truncate"
 
+npError :: String -> a
+npError f = error $ "Algebra.RealRing." ++ f ++ ": not implemented yet"
 
-
--- div' n d = A.floor (n / d)
-
--- mod' n d = n - (fromIntegral f) * d
---   where
---       f :: Exp Int64
---       f = div' n d
 
 
 -- fastFraction :: (Ord t, Ring.C (Exp t)) => Exp t -> Exp t
