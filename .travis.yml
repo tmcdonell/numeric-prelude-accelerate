@@ -5,6 +5,7 @@
 #
 language: generic
 dist: trusty
+sudo: required
 
 cache:
   directories:
@@ -60,7 +61,7 @@ install:
       if [ ${GHC} == head -o ! -e stack.yaml ]; then
         travis_retry cabal install --only-dependencies
       else
-        travis_retry stack build --only-dependencies --fast --no-terminal --no-haddock-deps --ghc-options="-j +RTS -A128M -n4m -RTS"
+        travis_retry stack build --only-dependencies --fast --no-terminal --no-haddock-deps --ghc-options="-j +RTS -A128M -RTS"
       fi
 
 script:
