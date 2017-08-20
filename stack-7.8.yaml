@@ -5,18 +5,20 @@ resolver: lts-2.22
 
 packages:
 - '.'
+
 - location:
-    git:    https://github.com/AccelerateHS/accelerate.git
-    commit: ed02d0ab0fc1d4430193efe12c92d9d77239e68c
+    git:    https://github.com/tmcdonell/accelerate.git
+    commit: aee5f0232e2cfdcf030e2a7ca0570e9ced017d63
   extra-dep: true
 
 extra-deps:
-- 'utility-ht-0.0.11'
 - 'base-orphans-0.4.4'
 - 'non-negative-0.1.1'
 - 'numeric-prelude-0.4.2'
 - 'storable-record-0.0.3.1'
+- 'th-lift-instances-0.1.11'
 - 'unique-0'
+- 'utility-ht-0.0.11'
 
 # Override default flag values for local packages and extra-deps
 flags: {}
